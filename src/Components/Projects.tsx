@@ -1,5 +1,5 @@
 import React from "react"
-import { VStack, Heading, SimpleGrid } from "@chakra-ui/react"
+import { VStack, Heading, Box, Image, Flex, Container } from "@chakra-ui/react"
 import ProjectBox from "./ProjectBox"
 
 const projectsData = [
@@ -16,7 +16,7 @@ const projectsData = [
     link: "",
   },
   {
-    title: " Accessibility for Customer and Agent Facing Applications",
+    title: "Accessibility for Customer and Agent Facing Applications",
     description: "",
     technologies: ["Web Development", "UX/UI Design", "Accessibility Standards"],
     link: "",
@@ -30,14 +30,48 @@ const projectsData = [
 ]
 
 const Projects: React.FC = () => (
-  <VStack spacing={8} as="section" mb={8} width="100%">
-    <Heading as="h2" size="xl">My Projects</Heading>
-    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6} width="100%">
+  <Container maxW="6xl">
+    <VStack spacing={16} as="section" mb={8} width="100%">
+      <Heading as="h2" size="xl">My Projects</Heading>
+      
       {projectsData.map((project, index) => (
-        <ProjectBox key={index} {...project} />
+        <Flex
+          key={index}
+          w="full"
+          flexDirection={{ base: "column", md: index % 2 === 0 ? "row" : "row-reverse" }}
+          gap={8}
+          align="center"
+          bg={index % 2 === 0 ? "transparent" : "blackAlpha.50"}
+          p={6}
+          borderRadius="lg"
+        >
+          {/* Project Content */}
+          <Box flex="1">
+            <ProjectBox {...project} />
+          </Box>
+
+          {/* Project Image */}
+          <Box
+            flex="1"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Image
+              src={`/api/placeholder/600/400`}
+              alt={`${project.title} preview`}
+              borderRadius="lg"
+              objectFit="cover"
+              boxShadow="lg"
+              maxW="500px"
+              w="100%"
+              h="300px"
+            />
+          </Box>
+        </Flex>
       ))}
-    </SimpleGrid>
-  </VStack>
+    </VStack>
+  </Container>
 )
 
 export default Projects

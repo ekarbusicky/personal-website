@@ -3,6 +3,7 @@ import {
   ChakraProvider,
   Box,
   Flex,
+  HStack,
   VStack,
   theme,
   Container,
@@ -11,7 +12,8 @@ import {
   Button,
   Heading,
   useColorModeValue,
-  ButtonProps
+  ButtonProps,
+  Link
 } from "@chakra-ui/react"
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import About from "./Components/About"
@@ -27,9 +29,24 @@ type NavButtonProps = {
 
 export const App = () => {
   const [activeComponent, setActiveComponent] = useState<'home' | 'about' | 'projects' | 'contact'>('home')
-  const bgColor = useColorModeValue('gray.50', 'gray.800')
-  const sidebarBg = useColorModeValue('white', 'gray.700')
-  const buttonHoverBg = useColorModeValue('gray.200', 'gray.600')
+  
+
+  // TODO: Fix dark Mode 
+  // TODO: Fix dark Mode 
+  // TODO: Fix dark Mode 
+
+  // TODO: Set up styling/theme structure
+  // TODO: Set up styling/theme structure
+  // TODO: Set up styling/theme structure
+
+
+  // Color mode values
+  const bgColor = useColorModeValue('gray.50', 'gray.900')
+  const navBg = useColorModeValue('white', 'gray.800')
+  const buttonHoverBg = useColorModeValue('gray.100', 'gray.700')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const buttonColor = useColorModeValue('gray.800', 'white')
+  const activeButtonBg = useColorModeValue('gray.200', 'gray.600')
 
   const renderComponent = () => {
     switch(activeComponent) {
@@ -48,8 +65,8 @@ export const App = () => {
               src="/api/placeholder/200/200"
               alt="Profile Photo"
             />
-            <Heading size="lg">Welcome to My Portfolio</Heading>
-            <Text fontSize="xl" maxW="600px" textAlign="center">
+            <Heading size="lg" color={textColor}>Welcome to My Portfolio</Heading>
+            <Text fontSize="xl" maxW="600px" textAlign="center" color={textColor}>
               Hi! I'm Emma.
             </Text>
           </VStack>
@@ -59,15 +76,15 @@ export const App = () => {
 
   const NavButton: React.FC<NavButtonProps> = ({ name, label, ...props }) => (
     <Button
-      w="full"
-      h="60px"
       variant="ghost"
-      justifyContent="flex-start"
-      pl={8}
-      mb={4}
-      fontSize="xl"
-      backgroundColor={activeComponent === name ? buttonHoverBg : 'transparent'}
-      _hover={{ bg: buttonHoverBg }}
+      px={4}
+      h="full"
+      fontSize="lg"
+      color={buttonColor}
+      backgroundColor={activeComponent === name ? activeButtonBg : 'transparent'}
+      _hover={{ 
+        bg: buttonHoverBg,
+      }}
       onClick={() => setActiveComponent(name)}
       {...props}
     >
@@ -77,34 +94,55 @@ export const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex h="100vh" bg={bgColor}>
-        {/* Sidebar */}
+      <Flex minH="100vh" bg={bgColor} flexDirection="column">
+        {/* Top Navigation */}
         <Box
-          w="300px"
-          h="100vh"
-          bg={sidebarBg}
-          py={8}
-          boxShadow="lg"
-          position="fixed"
+          bg={navBg}
+          boxShadow="sm"
+          position="sticky"
+          top={0}
+          zIndex={1}
         >
-          <VStack spacing={2} align="stretch">
-            <NavButton name="home" label="Home" />
-            <NavButton name="about" label="About" />
-            <NavButton name="projects" label="Projects" />
-            <NavButton name="contact" label="Contact" />
-          </VStack>
-          <Box position="absolute" bottom={4} left={4}>
-            <ColorModeSwitcher />
-          </Box>
+          <Container maxW="container.xl">
+            <Flex h="70px" alignItems="center" justifyContent="space-between">
+              {/* Navigation Buttons */}
+              <HStack spacing={1} h="full">
+                <NavButton name="home" label="Home" />
+                <NavButton name="about" label="About" />
+                <NavButton name="projects" label="Projects" />
+                <NavButton name="contact" label="Contact" />
+              </HStack>
+
+              {/* Resume Link and Color Mode Switch */}
+              <HStack spacing={4}>
+                <Link
+                  href="/path-to-your-resume.pdf"
+                  fontSize="lg"
+                  fontWeight="bold"
+                  color={textColor}
+                  _hover={{
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px"
+                  }}
+                  download
+                >
+                  Download Resume
+                </Link>
+                <ColorModeSwitcher />
+              </HStack>
+            </Flex>
+          </Container>
         </Box>
 
         {/* Main Content */}
-        <Box ml="300px" w="calc(100% - 300px)" p={8}>
-          <Container maxW="container.xl">
+        <Box flex="1">
+          <Container maxW="container.xl" py={8}>
             {renderComponent()}
           </Container>
-          <Footer />
         </Box>
+        
+        {/* Footer */}
+        <Footer />
       </Flex>
     </ChakraProvider>
   )
