@@ -25,7 +25,19 @@ const About = () => (
         
         <VStack align="start" spacing={4}>
           <Text fontSize="lg" lineHeight="tall">
-            Brief intro goes here
+            Education
+          </Text>
+          <Text fontSize="lg" lineHeight="tall">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum debitis consequatur ex ipsa molestiae eligendi!
+          </Text>
+          <Text fontSize="lg" lineHeight="tall">
+            Expereince
+          </Text>
+          <Text fontSize="lg" lineHeight="tall">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum debitis consequatur ex ipsa molestiae eligendi!
+          </Text>
+          <Text fontSize="lg" lineHeight="tall">
+          Why did I make this website? 
           </Text>
           <Text fontSize="lg" lineHeight="tall">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum debitis consequatur ex ipsa molestiae eligendi!

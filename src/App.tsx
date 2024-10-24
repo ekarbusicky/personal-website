@@ -5,7 +5,6 @@ import {
   Flex,
   HStack,
   VStack,
-  theme,
   Container,
   Image,
   Text,
@@ -13,9 +12,9 @@ import {
   Heading,
   useColorModeValue,
   ButtonProps,
-  Link
 } from "@chakra-ui/react"
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
+import { theme } from "./theme"
 import About from "./Components/About"
 import Projects from "./Components/Projects"
 import Contact from "./Components/Contact"
@@ -29,24 +28,31 @@ type NavButtonProps = {
 
 export const App = () => {
   const [activeComponent, setActiveComponent] = useState<'home' | 'about' | 'projects' | 'contact'>('home')
-  
 
-  // TODO: Fix dark Mode 
-  // TODO: Fix dark Mode 
-  // TODO: Fix dark Mode 
+  const bgColor = useColorModeValue('background.light', 'background.dark')
+  const navBg = useColorModeValue('nav.light', 'nav.dark')
+  const buttonHoverBg = useColorModeValue('button.hoverLight', 'button.hoverDark')
+  const textColor = useColorModeValue('text.light', 'text.dark')
+  const buttonColor = useColorModeValue('button.light', 'button.dark')
+  const activeButtonBg = useColorModeValue('button.activeLight', 'button.activeDark')
 
-  // TODO: Set up styling/theme structure
-  // TODO: Set up styling/theme structure
-  // TODO: Set up styling/theme structure
-
-
-  // Color mode values
-  const bgColor = useColorModeValue('gray.50', 'gray.900')
-  const navBg = useColorModeValue('white', 'gray.800')
-  const buttonHoverBg = useColorModeValue('gray.100', 'gray.700')
-  const textColor = useColorModeValue('gray.800', 'white')
-  const buttonColor = useColorModeValue('gray.800', 'white')
-  const activeButtonBg = useColorModeValue('gray.200', 'gray.600')
+  const NavButton: React.FC<NavButtonProps> = ({ name, label, ...props }) => (
+    <Button
+      variant="nav"
+      px={4}
+      h="full"
+      fontSize="lg"
+      color={buttonColor}
+      backgroundColor={activeComponent === name ? activeButtonBg : 'transparent'}
+      _hover={{ 
+        bg: buttonHoverBg,
+      }}
+      onClick={() => setActiveComponent(name)}
+      {...props}
+    >
+      {label}
+    </Button>
+  )
 
   const renderComponent = () => {
     switch(activeComponent) {
@@ -67,35 +73,22 @@ export const App = () => {
             />
             <Heading size="lg" color={textColor}>Welcome to My Portfolio</Heading>
             <Text fontSize="xl" maxW="600px" textAlign="center" color={textColor}>
-              Hi! I'm Emma.
+            Hello, I'm Emma! I'm a recent graduate from the University of 
+            Wisconsin-Madison with a Bachelor of Science in Computer Science. 
+            I have hands-on experience in creating, testing, debugging, 
+            and documenting software features for a range of medium to large-scale applications. 
+            I’m passionate about delivering high-quality, user-friendly digital solutions, and 
+            am actively seeking new opportunities to apply my skills and grow as a developer. 
+            Let’s build something great together! 
             </Text>
           </VStack>
         )
     }
   }
 
-  const NavButton: React.FC<NavButtonProps> = ({ name, label, ...props }) => (
-    <Button
-      variant="ghost"
-      px={4}
-      h="full"
-      fontSize="lg"
-      color={buttonColor}
-      backgroundColor={activeComponent === name ? activeButtonBg : 'transparent'}
-      _hover={{ 
-        bg: buttonHoverBg,
-      }}
-      onClick={() => setActiveComponent(name)}
-      {...props}
-    >
-      {label}
-    </Button>
-  )
-
   return (
     <ChakraProvider theme={theme}>
       <Flex minH="100vh" bg={bgColor} flexDirection="column">
-        {/* Top Navigation */}
         <Box
           bg={navBg}
           boxShadow="sm"
@@ -105,7 +98,6 @@ export const App = () => {
         >
           <Container maxW="container.xl">
             <Flex h="70px" alignItems="center" justifyContent="space-between">
-              {/* Navigation Buttons */}
               <HStack spacing={1} h="full">
                 <NavButton name="home" label="Home" />
                 <NavButton name="about" label="About" />
@@ -113,35 +105,30 @@ export const App = () => {
                 <NavButton name="contact" label="Contact" />
               </HStack>
 
-              {/* Resume Link and Color Mode Switch */}
               <HStack spacing={4}>
-                <Link
-                  href="/path-to-your-resume.pdf"
+                <Button
+                  as="a"
+                  href="/Resume - Emma Karbusicky TEST.pdf"
+                  variant="link"
                   fontSize="lg"
                   fontWeight="bold"
                   color={textColor}
-                  _hover={{
-                    textDecoration: "underline",
-                    textUnderlineOffset: "4px"
-                  }}
                   download
                 >
                   Download Resume
-                </Link>
+                </Button>
                 <ColorModeSwitcher />
               </HStack>
             </Flex>
           </Container>
         </Box>
 
-        {/* Main Content */}
         <Box flex="1">
           <Container maxW="container.xl" py={8}>
             {renderComponent()}
           </Container>
         </Box>
         
-        {/* Footer */}
         <Footer />
       </Flex>
     </ChakraProvider>
